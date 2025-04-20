@@ -6,9 +6,16 @@ GUESS_BOARD = [[' '] * 8 for x in range(8)]
 letters_to_numbers = {'A': 0, 'B': 1, 'C': 2, 'D': 3,
                       'E': 4, 'F': 5, 'G': 6, 'H': 7, }
 
+
 # function for printing board
-def print_battleship_board():
-    pass
+def print_battleship_board(board):
+    print('')
+    print('  A B C D E F G H')
+    print('-----------------')
+    row_number = 1
+    for row_number, row in enumerate(board, start = 1):
+        print(f"{row_number}|{'|'.join(row)}|")
+print()
 
 # function for creating the ships randomly
 def generate_ships():
@@ -22,3 +29,6 @@ def get_coordinates():
 # function that counts the total hits
 def total_hits():
     pass
+
+print_battleship_board(HIDDEN_BOARD)
+print_battleship_board(GUESS_BOARD)
