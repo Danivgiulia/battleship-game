@@ -1,4 +1,16 @@
+# Legend 
+
+# The 'X' mark will be used to mark a shot 
+# The ' ' (the empty space) will signify that nothing has been done
+# The 'O' wil signify that the shot has been missed 
+
+# This will be used to generate random ship coorddinates
+from random import randint
+
+# The hidden board is for the computer to place the randomly generated coordinates
 HIDDEN_BOARD = [[' '] * 8 for x in range(8)]
+
+# The guess board is for the player to guess and keep track of where to put the shots 
 GUESS_BOARD = [[' '] * 8 for x in range(8)]
 
 # Because python is a language that starts the count from 0 instead
@@ -13,13 +25,19 @@ def print_battleship_board(board):
     print('  A B C D E F G H')
     print('-----------------')
     row_number = 1
-    for row_number, row in enumerate(board, start = 1):
+    for row_number, row in enumerate(board, start =1):
         print(f"{row_number}|{'|'.join(row)}|")
 print()
 
+
 # function for creating the ships randomly
 def generate_ships():
-    pass
+    for ship in range(5):
+        ship_row, ship_column = randint(0, 7), randint(0, 7)
+        while board[ship_row][ship_column] == 'X':
+            ship_row, ship_column = randint(0, 7), randint(0, 7)
+        board[ship_row][ship_column] = 'X'
+
 
 # function for getting the ship location
 # bug for if no input then crash
