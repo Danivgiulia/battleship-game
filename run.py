@@ -27,13 +27,12 @@ def print_battleship_board(board):
     print('  A B C D E F G H')
     print('-----------------')
     row_number = 1
-    for row_number, row in enumerate(board, start =1):
+    for row_number, row in enumerate(board, start=1):
         print(f"{row_number}|{'|'.join(row)}|")
-print()
 
 
 # function for creating the ships randomly
-def generate_ships():
+def generate_ships(board):
     for ship in range(5):
         ship_row, ship_column = randint(0, 7), randint(0, 7)
         while board[ship_row][ship_column] == 'X':
@@ -45,7 +44,7 @@ def generate_ships():
 # bug for if no input then crash
 def get_coordinates():
     print()
-    
+
     # Get valid row input
     while True:
         row = input('Please enter a ship row (1-8): ')
@@ -64,7 +63,7 @@ def get_coordinates():
 
 
 # function that counts the total hits
-def total_hits():
+def total_hits(board):
     count = 0
     for row in board:
         for column in row:
@@ -72,5 +71,46 @@ def total_hits():
                 count += 1
     return count
 
-print_battleship_board(HIDDEN_BOARD)
-print_battleship_board(GUESS_BOARD)
+
+generate_ships(HIDDEN_BOARD)
+
+turns = 10
+
+print(
+    "Welcome to Battleship!\n"
+    "In Battleship, you will take turns guessing the row (1-8) and \n"
+    "column (A-H) coordinates to locate and hit five hidden enemy ships \n"
+    "on an 8x8 grid.\n"
+    "You have 10 turns to sink all the ships before time runs out!\n"
+)
+
+while turns > 0:
+    print_battleship_board(GUESS_BOARD)
+    row, column = get_coordinates()
+
+    # Check if the user already guessed that location
+    if GUESS_BOARD[row][column] in ['O', 'X']:
+        print('\nYou already guessed that spot. Try again.')
+        continue  # Skip the rest of this loop and go to the next guess
+
+    # Check for a hit
+    if HIDDEN_BOARD[row][column] == 'X':
+        print('\n Hit! You’ve struck a battleship!')
+        GUESS_BOARD[row][column] = 'X'
+    else:
+        print('\n Miss!')
+        GUESS_BOARD[row][column] = 'O'
+
+    turns -= 1
+
+    # Check for win condition
+    if total_hits(GUESS_BOARD) == 5:
+        print('\n Congratulations, you have sunk all the battleships!')
+        break
+
+    print(f'You have {turns} turn{"s" if turns != 1 else ""} remaining.\n')
+
+    # Check for game over
+    if turns == 0:
+        print(' Sorry, you have run out of turns. The game is over.')
+        break
