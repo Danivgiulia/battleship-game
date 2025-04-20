@@ -65,7 +65,12 @@ def get_coordinates():
 
 # function that counts the total hits
 def total_hits():
-    pass
+    count = 0
+    for row in board:
+        for column in row:
+            if column == 'X':
+                count += 1
+    return count
 
 print_battleship_board(HIDDEN_BOARD)
 print_battleship_board(GUESS_BOARD)
